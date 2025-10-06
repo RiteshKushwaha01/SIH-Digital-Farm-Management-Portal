@@ -1,0 +1,35 @@
+{
+  "name": "digital-farm-management-portal",
+  "version": "1.0.0",
+  "description": "A comprehensive biosecurity management system for pig and poultry farms",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "dev": "python -m http.server 8000"
+  },
+  "keywords": [
+    "farm-management",
+    "biosecurity",
+    "agriculture",
+    "livestock",
+    "poultry",
+    "pigs",
+    "risk-assessment",
+    "compliance",
+    "training"
+  ],
+  "author": "Digital Farm Management Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/digital-farm-management-portal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/digital-farm-management-portal/issues"
+  },
+  "homepage": "https://github.com/your-username/digital-farm-management-portal#readme"
+}
+

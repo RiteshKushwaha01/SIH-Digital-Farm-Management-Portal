@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Farm Management Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-green-600 text-white shadow-lg sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2"
+        >
+          <div
+            class="flex items-center justify-between sm:justify-start w-full sm:w-auto"
+          >
+            <i class="fas fa-seedling text-2xl mr-3"></i>
+            <h1 class="text-xl font-bold">FarmGuard Portal</h1>
+            <button
+              id="menuToggle"
+              class="mobile-menu-toggle ml-auto sm:hidden text-white bg-green-700 hover:bg-green-800 px-3 py-2 rounded"
+              aria-label="Open menu"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+          <div
+            class="flex items-center space-x-4 flex-wrap gap-2 w-full sm:w-auto justify-between sm:justify-end"
+          >
+            <!-- Language Selector -->
+            <select
+              id="languageSelect"
+              class="bg-green-700 text-white px-3 py-1 rounded border-0 focus:ring-2 focus:ring-green-300"
+            >
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="hi">हिन्दी</option>
+              <option value="mr">मराठी</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+            <!-- Dark Mode Toggle -->
+            <button
+              id="themeToggle"
+              class="text-white bg-green-700 hover:bg-green-800 px-3 py-1 rounded"
+              aria-label="Toggle theme"
+            >
+              <i class="fas fa-moon"></i>
+            </button>
+            <!-- User Profile -->
+            <div class="flex items-center">
+              <i class="fas fa-user-circle text-2xl"></i>
+              <span class="ml-2">Farm Manager</span>
+              <span
+                id="pointsBadge"
+                class="ml-3 text-xs bg-white text-green-700 font-semibold px-2 py-1 rounded-full"
+                >0 pts</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="flex flex-col md:flex-row">
+      <aside class="sidebar w-full md:w-64 bg-white shadow-lg md:min-h-screen">
+        <div class="p-4">
+          <nav class="space-y-2">
+            <a
+              href="#dashboard"
+              class="nav-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-tachometer-alt mr-3"></i>
+              <span data-translate="dashboard">Dashboard</span>
+            </a>
+            <a
+              href="#risk-assessment"
+              class="nav-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-shield-alt mr-3"></i>
+              <span data-translate="risk_assessment">Risk Assessment</span>
+            </a>
+            <a
+              href="#training"
+              class="nav-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-graduation-cap mr-3"></i>
+              <span data-translate="training">Training</span>
+            </a>
+            <a
+              href="#alerts"
+              class="nav-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-exclamation-triangle mr-3"></i>
+              <span data-translate="alerts">Alerts</span>
+            </a>
+            <a
+              href="#compliance"
+              class="nav-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-clipboard-check mr-3"></i>
+              <span data-translate="compliance">Compliance</span>
+            </a>
+            <a
+              href="#analytics"
+              class="nav-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-chart-pie mr-3"></i>
+              <span data-translate="analytics">Analytics</span>
+            </a>
+            <a
+              href="#community"
+              class="nav-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors"
+            >
+              <i class="fas fa-comments mr-3"></i>
+              <span data-translate="community">Community</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content flex-1 p-4 md:p-6">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="welcome"
+            >
+              Welcome to FarmGuard
+            </h2>
+            <p class="text-gray-600" data-translate="dashboard_subtitle">
+              Your comprehensive biosecurity management system
+            </p>
+          </div>
+
+          <!-- Farm Summary Cards -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          >
+            <div
+              class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500"
+            >
+              <div class="flex items-center">
+                <div class="p-3 bg-green-100 rounded-full">
+                  <i class="fas fa-piggy-bank text-green-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <p
+                    class="text-sm font-medium text-gray-600"
+                    data-translate="total_animals"
+                  >
+                    Total Animals
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900">2,847</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500"
+            >
+              <div class="flex items-center">
+                <div class="p-3 bg-blue-100 rounded-full">
+                  <i class="fas fa-shield-alt text-blue-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <p
+                    class="text-sm font-medium text-gray-600"
+                    data-translate="risk_score"
+                  >
+                    Risk Score
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900" id="riskScore">
+                    Low
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500"
+            >
+              <div class="flex items-center">
+                <div class="p-3 bg-yellow-100 rounded-full">
+                  <i
+                    class="fas fa-exclamation-triangle text-yellow-600 text-xl"
+                  ></i>
+                </div>
+                <div class="ml-4">
+                  <p
+                    class="text-sm font-medium text-gray-600"
+                    data-translate="active_alerts"
+                  >
+                    Active Alerts
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900">3</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500"
+            >
+              <div class="flex items-center">
+                <div class="p-3 bg-purple-100 rounded-full">
+                  <i class="fas fa-check-circle text-purple-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                  <p
+                    class="text-sm font-medium text-gray-600"
+                    data-translate="compliance_rate"
+                  >
+                    Compliance Rate
+                  </p>
+                  <p class="text-2xl font-bold text-gray-900">94%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Alerts -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="recent_alerts"
+              >
+                Recent Alerts
+              </h3>
+              <div class="space-y-3">
+                <div
+                  class="flex items-center p-3 bg-red-50 border-l-4 border-red-500 rounded"
+                >
+                  <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                  <div>
+                    <p
+                      class="font-medium text-gray-800"
+                      data-translate="high_risk_alert"
+                    >
+                      High Risk: Unauthorized vehicle entry
+                    </p>
+                    <p class="text-sm text-gray-600">2 hours ago</p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded"
+                >
+                  <i class="fas fa-clock text-yellow-500 mr-3"></i>
+                  <div>
+                    <p
+                      class="font-medium text-gray-800"
+                      data-translate="vaccination_due"
+                    >
+                      Vaccination due for Poultry Block A
+                    </p>
+                    <p class="text-sm text-gray-600">1 day ago</p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-3 bg-blue-50 border-l-4 border-blue-500 rounded"
+                >
+                  <i class="fas fa-info-circle text-blue-500 mr-3"></i>
+                  <div>
+                    <p
+                      class="font-medium text-gray-800"
+                      data-translate="hygiene_check"
+                    >
+                      Hygiene check completed
+                    </p>
+                    <p class="text-sm text-gray-600">3 days ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Compliance Status -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="compliance_status"
+              >
+                Compliance Status
+              </h3>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                  <span data-translate="vaccination_records"
+                    >Vaccination Records</span
+                  >
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-green-500 h-2 rounded-full"
+                        style="width: 95%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">95%</span>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span data-translate="hygiene_checks">Hygiene Checks</span>
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-green-500 h-2 rounded-full"
+                        style="width: 88%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">88%</span>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span data-translate="biosecurity_protocols"
+                    >Biosecurity Protocols</span
+                  >
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-yellow-500 h-2 rounded-full"
+                        style="width: 72%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">72%</span>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span data-translate="training_completion"
+                    >Training Completion</span
+                  >
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-green-500 h-2 rounded-full"
+                        style="width: 91%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">91%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Key Metrics and Reports -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Farm Performance Overview
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded border">
+                  <p class="text-sm text-gray-600">Feed Efficiency</p>
+                  <p class="text-2xl font-bold mt-1">92%</p>
+                  <p class="text-xs text-gray-500">Last 30 days</p>
+                </div>
+                <div class="p-4 rounded border">
+                  <p class="text-sm text-gray-600">Mortality Rate</p>
+                  <p class="text-2xl font-bold mt-1">0.7%</p>
+                  <p class="text-xs text-gray-500">Last 30 days</p>
+                </div>
+                <div class="p-4 rounded border">
+                  <p class="text-sm text-gray-600">Vaccination Coverage</p>
+                  <p class="text-2xl font-bold mt-1">96%</p>
+                  <p class="text-xs text-gray-500">Current quarter</p>
+                </div>
+              </div>
+              <div
+                class="mt-6 h-48 bg-gray-100 rounded flex items-center justify-center text-gray-500 image-card h-64"
+              >
+                <img
+                  src="./images/image.jpg"
+                  alt="Production & Compliance Trend (chart placeholder)"
+                />
+                <div class="image-caption">
+                  Production & Compliance Trend (chart placeholder)
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Recent Reports
+              </h3>
+              <ul class="space-y-3">
+                <li class="flex items-center justify-between">
+                  <span class="text-gray-700">Monthly Biosecurity Audit</span>
+                  <button class="text-green-600 hover:underline">View</button>
+                </li>
+                <li class="flex items-center justify-between">
+                  <span class="text-gray-700">Vaccination Status Summary</span>
+                  <button class="text-green-600 hover:underline">View</button>
+                </li>
+                <li class="flex items-center justify-between">
+                  <span class="text-gray-700">Training Completion Report</span>
+                  <button class="text-green-600 hover:underline">View</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Biosecurity Checklist & FAQ -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Biosecurity Daily Checklist
+              </h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>• Disinfect footwear at entry/exit points</li>
+                <li>• Verify visitor log and PPE usage</li>
+                <li>• Inspect feed and water systems</li>
+                <li>• Isolate sick animals immediately</li>
+                <li>• Sanitize tools and equipment after use</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Risk Assessment FAQ
+              </h3>
+              <div class="space-y-3 text-gray-700">
+                <div>
+                  <p class="font-medium">How often should I reassess?</p>
+                  <p class="text-sm text-gray-600">
+                    Every 2 weeks, or after any major change in stock or
+                    procedures.
+                  </p>
+                </div>
+                <div>
+                  <p class="font-medium">What increases risk most?</p>
+                  <p class="text-sm text-gray-600">
+                    High density, poor hygiene, outdated vaccinations, and
+                    unrestricted access.
+                  </p>
+                </div>
+                <div>
+                  <p class="font-medium">What should I fix first?</p>
+                  <p class="text-sm text-gray-600">
+                    Address vaccination gaps and hygiene practices before other
+                    improvements.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Additional Learning Resources -->
+          <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Infographics
+              </h3>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="image-card h-32">
+                  <img src="./images/image1.jpg" alt="Hygiene Steps" />
+                  <div class="image-caption">Hygiene Steps</div>
+                </div>
+                <div class="image-card h-32">
+                  <img src="images/image2.jpg" alt="Vaccination Cycle" />
+                  <div class="image-caption">Vaccination Cycle</div>
+                </div>
+                <div class="image-card h-32">
+                  <img src="./images/image2.jpg" alt="Movement Protocol" />
+                  <div class="image-caption">Movement Protocol</div>
+                </div>
+                <div class="image-card h-32">
+                  <img src="./images/image4.jpg" alt="Waste Disposal" />
+                  <div class="image-caption">Waste Disposal</div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Quizzes & Challenges
+              </h3>
+              <ul class="space-y-3 text-gray-700">
+                <li>• Hygiene Basics Challenge</li>
+                <li>• Vaccination Planner Quiz</li>
+                <li>• Biosecurity Protocols Scenario</li>
+                <li>• Outbreak Response Drill</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Regional Outbreak Map
+            </h3>
+            <div class="image-card h-64">
+              <img src="./images/image5.jpg" alt="Outbreak Map" />
+              <div class="image-caption">Outbreak hotspots (illustrative)</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Subscriptions
+            </h3>
+            <div class="space-y-2 text-gray-700">
+              <label class="flex items-center"
+                ><input type="checkbox" class="mr-2" /> Daily Summary</label
+              >
+              <label class="flex items-center"
+                ><input type="checkbox" class="mr-2" /> Outbreak Alerts</label
+              >
+              <label class="flex items-center"
+                ><input type="checkbox" class="mr-2" /> Compliance
+                Reminders</label
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- Risk Assessment Section -->
+        <section id="risk-assessment" class="content-section hidden">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="risk_assessment"
+            >
+              Risk Assessment
+            </h2>
+            <p class="text-gray-600" data-translate="risk_assessment_subtitle">
+              Evaluate your farm's biosecurity risk level
+            </p>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <form id="riskAssessmentForm" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    data-translate="farm_location"
+                    >Farm Location</label
+                  >
+                  <select
+                    id="location"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="rural" data-translate="rural">
+                      Rural (Isolated)
+                    </option>
+                    <option value="suburban" data-translate="suburban">
+                      Suburban
+                    </option>
+                    <option value="urban" data-translate="urban">Urban</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    data-translate="animal_type"
+                    >Animal Type</label
+                  >
+                  <select
+                    id="animalType"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="pigs" data-translate="pigs">Pigs</option>
+                    <option value="poultry" data-translate="poultry">
+                      Poultry
+                    </option>
+                    <option value="mixed" data-translate="mixed">Mixed</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    data-translate="animal_count"
+                    >Animal Count</label
+                  >
+                  <input
+                    type="number"
+                    id="animalCount"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    placeholder="Enter number of animals"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    data-translate="hygiene_practices"
+                    >Hygiene Practices</label
+                  >
+                  <select
+                    id="hygiene"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="excellent" data-translate="excellent">
+                      Excellent
+                    </option>
+                    <option value="good" data-translate="good">Good</option>
+                    <option value="fair" data-translate="fair">Fair</option>
+                    <option value="poor" data-translate="poor">Poor</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    data-translate="vaccination_status"
+                    >Vaccination Status</label
+                  >
+                  <select
+                    id="vaccination"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="up_to_date" data-translate="up_to_date">
+                      Up to Date
+                    </option>
+                    <option value="partial" data-translate="partial">
+                      Partial
+                    </option>
+                    <option value="outdated" data-translate="outdated">
+                      Outdated
+                    </option>
+                    <option value="none" data-translate="none">None</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    data-translate="biosecurity_measures"
+                    >Biosecurity Measures</label
+                  >
+                  <select
+                    id="biosecurity"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option
+                      value="comprehensive"
+                      data-translate="comprehensive"
+                    >
+                      Comprehensive
+                    </option>
+                    <option value="basic" data-translate="basic">Basic</option>
+                    <option value="minimal" data-translate="minimal">
+                      Minimal
+                    </option>
+                    <option value="none" data-translate="none">None</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex justify-center">
+                <button
+                  type="submit"
+                  class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
+                  data-translate="calculate_risk"
+                >
+                  Calculate Risk Level
+                </button>
+              </div>
+            </form>
+
+            <!-- Risk Assessment Result -->
+            <div id="riskResult" class="mt-8 hidden">
+              <div class="bg-gray-50 rounded-lg p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-4"
+                  data-translate="risk_assessment_result"
+                >
+                  Risk Assessment Result
+                </h3>
+                <div id="riskLevel" class="text-center">
+                  <!-- Risk level will be displayed here -->
+                </div>
+                <div id="riskRecommendations" class="mt-4">
+                  <!-- Recommendations will be displayed here -->
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2 justify-center">
+                  <button
+                    id="saveAssessment"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                    data-translate="save_assessment"
+                  >
+                    Save Assessment
+                  </button>
+                  <button
+                    id="downloadGuidelines"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    data-translate="download_guidelines"
+                  >
+                    Download Guidelines
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Training Section -->
+        <section id="training" class="content-section hidden">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="training"
+            >
+              Training Center
+            </h2>
+            <p class="text-gray-600" data-translate="training_subtitle">
+              Learn about biosecurity best practices
+            </p>
+          </div>
+          <div class="mb-4">
+            <button
+              id="takeQuiz"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              data-translate="take_quiz"
+            >
+              Take Quiz
+            </button>
+            <span
+              class="ml-3 text-sm text-gray-600"
+              data-translate="earn_points_hint"
+              >Earn points for correct answers</span
+            >
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="h-48 bg-green-100 flex items-center justify-center">
+                <i class="fas fa-play-circle text-6xl text-green-600"></i>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-2"
+                  data-translate="hygiene_basics"
+                >
+                  Hygiene Basics
+                </h3>
+                <p
+                  class="text-gray-600 mb-4"
+                  data-translate="hygiene_basics_desc"
+                >
+                  Essential hygiene practices for farm workers
+                </p>
+                <button
+                  class="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors"
+                  data-translate="watch_video"
+                >
+                  Watch Video
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="h-48 bg-blue-100 flex items-center justify-center">
+                <i class="fas fa-shield-alt text-6xl text-blue-600"></i>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-2"
+                  data-translate="biosecurity_protocols"
+                >
+                  Biosecurity Protocols
+                </h3>
+                <p
+                  class="text-gray-600 mb-4"
+                  data-translate="biosecurity_protocols_desc"
+                >
+                  Understanding and implementing biosecurity measures
+                </p>
+                <button
+                  class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+                  data-translate="start_training"
+                >
+                  Start Training
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="h-48 bg-yellow-100 flex items-center justify-center">
+                <i class="fas fa-syringe text-6xl text-yellow-600"></i>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-2"
+                  data-translate="vaccination_guide"
+                >
+                  Vaccination Guide
+                </h3>
+                <p
+                  class="text-gray-600 mb-4"
+                  data-translate="vaccination_guide_desc"
+                >
+                  Proper vaccination procedures and schedules
+                </p>
+                <button
+                  class="w-full bg-yellow-600 text-white py-2 px-4 rounded hover:bg-yellow-700 transition-colors"
+                  data-translate="learn_more"
+                >
+                  Learn More
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="h-48 bg-purple-100 flex items-center justify-center">
+                <i
+                  class="fas fa-exclamation-triangle text-6xl text-purple-600"
+                ></i>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-2"
+                  data-translate="disease_prevention"
+                >
+                  Disease Prevention
+                </h3>
+                <p
+                  class="text-gray-600 mb-4"
+                  data-translate="disease_prevention_desc"
+                >
+                  Identifying and preventing common diseases
+                </p>
+                <button
+                  class="w-full bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition-colors"
+                  data-translate="view_guide"
+                >
+                  View Guide
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="h-48 bg-red-100 flex items-center justify-center">
+                <i class="fas fa-first-aid text-6xl text-red-600"></i>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-2"
+                  data-translate="emergency_procedures"
+                >
+                  Emergency Procedures
+                </h3>
+                <p
+                  class="text-gray-600 mb-4"
+                  data-translate="emergency_procedures_desc"
+                >
+                  What to do in case of disease outbreak
+                </p>
+                <button
+                  class="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors"
+                  data-translate="read_procedures"
+                >
+                  Read Procedures
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="h-48 bg-indigo-100 flex items-center justify-center">
+                <i class="fas fa-chart-line text-6xl text-indigo-600"></i>
+              </div>
+              <div class="p-6">
+                <h3
+                  class="text-lg font-semibold text-gray-800 mb-2"
+                  data-translate="monitoring_systems"
+                >
+                  Monitoring Systems
+                </h3>
+                <p
+                  class="text-gray-600 mb-4"
+                  data-translate="monitoring_systems_desc"
+                >
+                  Setting up effective monitoring systems
+                </p>
+                <button
+                  class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition-colors"
+                  data-translate="get_started"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="content-section hidden">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="analytics"
+            >
+              Analytics
+            </h2>
+            <p class="text-gray-600" data-translate="analytics_subtitle">
+              Summary of farm health and engagement
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-2"
+                data-translate="total_alerts"
+              >
+                Total Alerts
+              </h3>
+              <p
+                id="analyticsTotalAlerts"
+                class="text-3xl font-bold text-gray-900"
+              >
+                0
+              </p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-2"
+                data-translate="active_alerts"
+              >
+                Active Alerts
+              </h3>
+              <p
+                id="analyticsActiveAlerts"
+                class="text-3xl font-bold text-gray-900"
+              >
+                0
+              </p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-2"
+                data-translate="points"
+              >
+                Points
+              </h3>
+              <p id="analyticsPoints" class="text-3xl font-bold text-gray-900">
+                0
+              </p>
+            </div>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <button
+              id="exportAnalyticsJSON"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              data-translate="export_json"
+            >
+              Export JSON
+            </button>
+            <button
+              id="exportAnalyticsCSV"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              data-translate="export_csv"
+            >
+              Export CSV
+            </button>
+          </div>
+          <!-- Trends & Insights -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Risk Trend
+              </h3>
+              <div
+                class="h-56 bg-gray-100 rounded flex items-center justify-center text-gray-500"
+              >
+                Risk trend chart placeholder
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Compliance Trend
+              </h3>
+              <div
+                class="h-56 bg-gray-100 rounded flex items-center justify-center text-gray-500"
+              >
+                Compliance trend chart placeholder
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="content-section hidden">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="community"
+            >
+              Community
+            </h2>
+            <p class="text-gray-600" data-translate="community_subtitle">
+              Share insights and experiences
+            </p>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="mb-3">
+              <label
+                class="block text-sm font-medium text-gray-700 mb-2"
+                data-translate="your_message"
+                >Your message</label
+              >
+              <textarea
+                id="communityMessage"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                rows="3"
+                placeholder="Share something helpful..."
+              ></textarea>
+            </div>
+            <button
+              id="postMessage"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              data-translate="post"
+            >
+              Post
+            </button>
+          </div>
+          <div id="communityFeed" class="space-y-4">
+            <!-- Posts render here -->
+          </div>
+          <!-- Suggested Topics -->
+          <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+              Suggested Topics
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                >Hygiene SOPs</span
+              >
+              <span
+                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                >Vaccine sourcing</span
+              >
+              <span
+                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                >Outbreak response</span
+              >
+              <span
+                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                >Waste disposal</span
+              >
+              <span
+                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                >Training tips</span
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- Alerts Section -->
+        <section id="alerts" class="content-section hidden">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="alerts"
+            >
+              Alerts & Notifications
+            </h2>
+            <p class="text-gray-600" data-translate="alerts_subtitle">
+              Stay informed about farm health and security
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex items-center justify-between mb-4">
+                <h3
+                  class="text-lg font-semibold text-gray-800"
+                  data-translate="active_alerts"
+                >
+                  Active Alerts
+                </h3>
+                <button
+                  id="simulateAlert"
+                  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+                  data-translate="simulate_alert"
+                >
+                  Simulate Alert
+                </button>
+              </div>
+              <div id="alertsList" class="space-y-3">
+                <!-- Alerts will be dynamically added here -->
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="alert_history"
+              >
+                Alert History
+              </h3>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        data-translate="date"
+                      >
+                        Date
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        data-translate="type"
+                      >
+                        Type
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        data-translate="message"
+                      >
+                        Message
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        data-translate="status"
+                      >
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      >
+                        2024-01-15
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      >
+                        Security
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Unauthorized vehicle entry detected
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
+                          >High</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      >
+                        2024-01-14
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      >
+                        Health
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Vaccination due for Poultry Block A
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                          >Medium</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      >
+                        2024-01-13
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      >
+                        Maintenance
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-900">
+                        Hygiene check completed
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                          >Resolved</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Compliance Section -->
+        <section id="compliance" class="content-section hidden">
+          <div class="mb-6">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-2"
+              data-translate="compliance"
+            >
+              Compliance Tracker
+            </h2>
+            <p class="text-gray-600" data-translate="compliance_subtitle">
+              Track your biosecurity compliance measures
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Vaccination Records -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="vaccination_records"
+              >
+                Vaccination Records
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between p-3 bg-green-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="poultry_block_a"
+                      >
+                        Poultry Block A
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="last_vaccination"
+                      >
+                        Last vaccination: 2024-01-10
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                    data-translate="up_to_date"
+                    >Up to Date</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-clock text-yellow-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="pig_pen_1"
+                      >
+                        Pig Pen 1
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="due_soon"
+                      >
+                        Due soon: 2024-01-20
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full"
+                    data-translate="due_soon"
+                    >Due Soon</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-red-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i
+                      class="fas fa-exclamation-triangle text-red-500 mr-3"
+                    ></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="poultry_block_b"
+                      >
+                        Poultry Block B
+                      </p>
+                      <p class="text-sm text-gray-600" data-translate="overdue">
+                        Overdue: 2024-01-05
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full"
+                    data-translate="overdue"
+                    >Overdue</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Hygiene Checks -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="hygiene_checks"
+              >
+                Hygiene Checks
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between p-3 bg-green-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="feeding_area"
+                      >
+                        Feeding Area
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="completed_today"
+                      >
+                        Completed: Today
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                    data-translate="completed"
+                    >Completed</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-blue-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-info-circle text-blue-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="water_systems"
+                      >
+                        Water Systems
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="scheduled_tomorrow"
+                      >
+                        Scheduled: Tomorrow
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                    data-translate="scheduled"
+                    >Scheduled</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-clock text-yellow-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="waste_management"
+                      >
+                        Waste Management
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="due_this_week"
+                      >
+                        Due: This week
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full"
+                    data-translate="pending"
+                    >Pending</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Biosecurity Protocols -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="biosecurity_protocols"
+              >
+                Biosecurity Protocols
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <span data-translate="visitor_protocols"
+                    >Visitor Protocols</span
+                  >
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-green-500 h-2 rounded-full"
+                        style="width: 85%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">85%</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span data-translate="equipment_sanitization"
+                    >Equipment Sanitization</span
+                  >
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-yellow-500 h-2 rounded-full"
+                        style="width: 65%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">65%</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span data-translate="quarantine_procedures"
+                    >Quarantine Procedures</span
+                  >
+                  <div class="flex items-center">
+                    <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div
+                        class="bg-green-500 h-2 rounded-full"
+                        style="width: 92%"
+                      ></div>
+                    </div>
+                    <span class="text-sm font-medium">92%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Training Records -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-4"
+                data-translate="training_records"
+              >
+                Training Records
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between p-3 bg-green-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-certificate text-green-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="biosecurity_basics"
+                      >
+                        Biosecurity Basics
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="completed_jan_10"
+                      >
+                        Completed: Jan 10, 2024
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                    data-translate="certified"
+                    >Certified</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-blue-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-play-circle text-blue-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="emergency_procedures"
+                      >
+                        Emergency Procedures
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="in_progress"
+                      >
+                        In Progress
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                    data-translate="in_progress"
+                    >In Progress</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-clock text-yellow-500 mr-3"></i>
+                    <div>
+                      <p
+                        class="font-medium text-gray-800"
+                        data-translate="vaccination_protocols"
+                      >
+                        Vaccination Protocols
+                      </p>
+                      <p
+                        class="text-sm text-gray-600"
+                        data-translate="scheduled_feb_1"
+                      >
+                        Scheduled: Feb 1, 2024
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full"
+                    data-translate="scheduled"
+                    >Scheduled</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6">
+            <button
+              id="exportComplianceCSV"
+              class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              data-translate="export_compliance_csv"
+            >
+              Export Compliance CSV
+            </button>
+          </div>
+          <!-- Compliance Tasks & Documents -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Upcoming Tasks
+              </h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>• Deep clean quarantine area (Due: 3 days)</li>
+                <li>• Update visitor SOP signage</li>
+                <li>• Audit vaccination logs with vet</li>
+                <li>• Test water quality</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                Documents
+              </h3>
+              <ul class="space-y-3">
+                <li class="flex items-center justify-between">
+                  <span>Biosecurity SOP.pdf</span
+                  ><button class="text-green-600 hover:underline">Open</button>
+                </li>
+                <li class="flex items-center justify-between">
+                  <span>Vaccination Schedule.xlsx</span
+                  ><button class="text-green-600 hover:underline">Open</button>
+                </li>
+                <li class="flex items-center justify-between">
+                  <span>Waste Disposal Plan.docx</span
+                  ><button class="text-green-600 hover:underline">Open</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-10 bg-white border-t">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <div class="flex items-center mb-3">
+              <i class="fas fa-seedling text-green-600 text-xl mr-2"></i>
+              <span class="text-lg font-semibold text-gray-800">FarmGuard</span>
+            </div>
+            <p class="text-sm text-gray-600">
+              Digital biosecurity management and training for healthier, safer
+              farms.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-gray-800 mb-3">
+              Quick Links
+            </h4>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li>
+                <a href="#dashboard" class="hover:text-green-600">Dashboard</a>
+              </li>
+              <li>
+                <a href="#risk-assessment" class="hover:text-green-600"
+                  >Risk Assessment</a
+                >
+              </li>
+              <li>
+                <a href="#training" class="hover:text-green-600">Training</a>
+              </li>
+              <li>
+                <a href="#compliance" class="hover:text-green-600"
+                  >Compliance</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-gray-800 mb-3">Contact</h4>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li class="flex items-center">
+                <i class="fas fa-envelope mr-2 text-gray-500"></i>
+                support@farmguard.example
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone mr-2 text-gray-500"></i> +91-00000-00000
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-globe-asia mr-2 text-gray-500"></i>
+                Multilingual, mobile-first
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="mt-6 pt-6 border-t text-xs text-gray-500 flex flex-col sm:flex-row sm:items-center sm:justify-between"
+        >
+          <p>© <span id="yearNow"></span> FarmGuard. All rights reserved.</p>
+          <p class="mt-2 sm:mt-0">
+            Built for education, awareness, and safer livestock.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function (err) {
+            console.warn('SW registration failed', err)
+          })
+        })
+      }
+    </script>
+    <script>
+      // Update footer year
+      ;(function () {
+        var y = document.getElementById('yearNow')
+        if (y) y.textContent = new Date().getFullYear()
+      })()
+    </script>
+  </body>
+</html>
