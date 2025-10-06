@@ -654,6 +654,10 @@ document.addEventListener('DOMContentLoaded', function () {
   setupScrollHeaderElevation()
   setupAnalyticsCountUpOnView()
   initializeThemeFromStorage()
+  // Ensure sidebar is positioned correctly relative to nav on large screens
+  try {
+    adjustSidebarForNav()
+  } catch (e) {}
 })
 
 // Initialize the application
@@ -825,6 +829,37 @@ function showSection(sectionId) {
     targetSection.classList.remove('hidden')
     targetSection.classList.add('animate-section')
     setTimeout(() => targetSection.classList.remove('animate-section'), 450)
+
+    // Scroll page so the section starts from the top (account for sticky nav)
+    try {
+      const nav = document.querySelector('nav')
+      const navHeight = nav ? nav.offsetHeight : 0
+      const rect = targetSection.getBoundingClientRect()
+      const top = rect.top + window.scrollY - navHeight - 8 // small offset
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+    } catch (e) {
+      // fallback: scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    // Reset any internal scroll within the target section
+    try {
+      targetSection.scrollTop = 0
+    } catch (e) {}
+
+    // Focus the section for keyboard users (improve accessibility)
+    try {
+      const prevTab = targetSection.getAttribute('tabindex')
+      targetSection.setAttribute('tabindex', '-1')
+      targetSection.focus({ preventScroll: true })
+      // remove tabindex if it didn't exist before
+      if (prevTab === null) targetSection.removeAttribute('tabindex')
+    } catch (e) {}
+
+    // Update URL hash without causing a jump
+    try {
+      history.replaceState(null, '', '#' + sectionId)
+    } catch (e) {}
   }
 }
 
@@ -1617,6 +1652,36 @@ function setupScrollHeaderElevation() {
   window.addEventListener('scroll', () => {
     if (window.scrollY > 8) nav.classList.add('elevated')
     else nav.classList.remove('elevated')
+  })
+
+  // Adjust the sidebar top offset and height based on nav height for large screens
+  function adjustSidebarForNav() {
+    const sidebar = document.querySelector('aside.sidebar')
+    const nav = document.querySelector('nav')
+    if (!sidebar || !nav) return
+    const navHeight = nav.offsetHeight || 0
+    if (window.innerWidth >= 769) {
+      // Apply inline styles to guarantee correct sticky behavior
+      sidebar.style.position = 'sticky'
+      sidebar.style.top = navHeight + 'px'
+      sidebar.style.height = `calc(100vh - ${navHeight}px)`
+      sidebar.style.left = '0'
+      sidebar.style.overflowY = 'auto'
+    } else {
+      // Clear inline styles so mobile CSS/off-canvas behavior works
+      sidebar.style.position = ''
+      sidebar.style.top = ''
+      sidebar.style.height = ''
+      sidebar.style.left = ''
+      sidebar.style.overflowY = ''
+    }
+  }
+
+  // Update sidebar positioning when the window is resized
+  window.addEventListener('resize', () => {
+    try {
+      adjustSidebarForNav()
+    } catch (e) {}
   })
 }
 
